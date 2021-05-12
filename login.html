@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <title>Strona logowania</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="wrapper">
+    <div class="loginPageStyle">
+        <h1 class="text-center mb-2">
+            Biblioteka
+        </h1>
+        <form name="loginForm" id="loginForm"a action="index.html">
+            <div class="form-group">
+                <label for="username">Nazwa uzytkownika</label>
+                <input type="text" class="form-control" name="username" id="username" placeholder="Podaj nazwe uzytkownika">
+            </div>
+            <div class="form-group">
+                <label for="password">Haslo</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Haslo">
+            </div>
+            <button type="submit" class="btn btn-secondary">Zaloguj</button>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        // Listen to submit event on the <form> itself!
+        $('#loginForm').submit(function (e) {
+            localStorage.setItem('login', $('#username').val())
+            localStorage.setItem('pass', $('#password').val())
+        });
+    });
+</script>
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
