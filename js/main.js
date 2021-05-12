@@ -1,8 +1,5 @@
 const url = "http://localhost:8080/dashboard";
 
-$('#header').toggle(false)
-
-
 function loadFromApi() {
     let http_request = new XMLHttpRequest();
 
