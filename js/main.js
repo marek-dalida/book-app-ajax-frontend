@@ -22,9 +22,15 @@ function loadFromApi() {
                         "</tr>"
                 }).join('')
         } else {
-            console.log('blad');
+            console.log('Blad');
         }
     };
+
+    http_request.onerror = function (e){
+        console.log(e.target.status)
+        console.log(e.target.error)
+        alert('Wystąpił błąd podczas pobierania listy książek !')
+    }
 
     http_request.open('GET', url, true);
     http_request.setRequestHeader("Authorization", "Basic " + btoa(localStorage.getItem('login')+":" + localStorage.getItem('pass')))

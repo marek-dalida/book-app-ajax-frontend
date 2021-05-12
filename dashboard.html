@@ -36,22 +36,6 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12 text-center">
-
-            <button type="button" class="btn btn-secondary mt-4 mb-2" onClick={loadFromApi()}>Pokaż listę książek
-            </button>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Tytuł</th>
-                    <th scope="col">Autor</th>
-                    <th scope="col">Rok wydania</th>
-                </tr>
-                </thead>
-                <tbody id="bookList">
-                </tbody>
-            </table>
-
             <form class="col-6 offset-3" id="addBook">
                 <h4 class="text-center h4 mt-3">Dodawanie książki</h4>
                 <div class="form-group">
@@ -68,7 +52,7 @@
                     <label for="year">Rok wydania</label>
                     <input type="number" class="form-control" id="year" name="year" placeholder="Podaj rok wydania">
                 </div>
-                <button type="submit" class="btn btn-secondary">Dodaj</button>
+                <button type="submit" class="btn btn-secondary">Dodaj ksążkę</button>
             </form>
             <form class="col-6 offset-3" id="deleteBook">
                 <h4 class="text-center h4 mt-3">Usuwanie książki</h4>
@@ -77,9 +61,23 @@
                     <input type="number" class="form-control" name="deletedId" id="deletedId"
                            placeholder="Podaj id książki do usunięcia">
                 </div>
-                <button type="submit" class="btn btn-secondary">Usuń Książkę</button>
+                <button type="submit" class="btn btn-secondary">Usuń książkę</button>
             </form>
 
+            <table class="table table-striped mt-4">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Tytuł</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Rok wydania</th>
+                </tr>
+                </thead>
+                <tbody id="bookList">
+                </tbody>
+            </table>
+            <button type="button" class="btn btn-secondary mt-4 mb-2" onClick={loadFromApi()}>Pokaż listę książek
+            </button>
         </div>
     </div>
 </div>
@@ -98,7 +96,8 @@
     $(document).ready(function () {
         $('#deleteBook').submit(function (e) {
             e.preventDefault();
-            deleteUrl = url + '/' + $('#deletedId').val()
+            let deletedBookId = $('#deletedId').val()
+            deleteUrl = url + '/' + deletedBookId
             $.ajax({
                 type: "DELETE",
                 beforeSend: function (request) {
@@ -110,6 +109,13 @@
                 success: function (msg) {
                     console.log(msg);
                     loadFromApi()
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText)
+                    console.log(xhr.getResponseHeader('Exception-Message'))
+                    console.log(status.text)
+                    console.log("error " + error.text);
+                    alert("Błąd podczas usuwania książki !");
                 }
             });
             $('#deletedId').val('')
@@ -140,6 +146,13 @@
                 success: function (msg) {
                     console.log(msg);
                     loadFromApi()
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText)
+                    console.log(xhr.getResponseHeader('Exception-Message'))
+                    console.log(status.text)
+                    console.log("error " + error.text);
+                    alert("Błąd podczas dodawania książki !");
                 }
             });
 
