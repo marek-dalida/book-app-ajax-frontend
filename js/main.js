@@ -1,7 +1,8 @@
 const url = "http://localhost:8080/dashboard";
 
 function loadUserData() {
-  document.getElementById('userData').innerHTML = "<p class='mt-2'>" +  "Jesteś zalogowany jako: <b>" +  localStorage.getItem('login') + "</b></p>"
+
+  document.getElementById('navbarText').innerHTML = "<span class='navbar-text text-light'>" +  "Jesteś zalogowany jako: <b>" +  localStorage.getItem('login') + "</b></span>"
 }
 
 
