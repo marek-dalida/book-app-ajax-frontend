@@ -17,7 +17,7 @@
 
 </head>
 
-<body onload="loadUserData()">
+<body onload="loadUserData(); checkUserType()">
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -37,7 +37,8 @@
     <div class="row">
         <div class="col-lg-12 text-center">
 
-            <button type="button" class="btn btn-secondary mt-4 mb-2" onClick={loadFromApi()}>Pokaż listę książek</button>
+            <button type="button" class="btn btn-secondary mt-4 mb-2" onClick={loadFromApi()}>Pokaż listę książek
+            </button>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -82,18 +83,22 @@
         </div>
     </div>
 </div>
-<script>
 
-    console.log(localStorage.getItem('login'))
-    console.log(localStorage.getItem('pass'))
+<script>
+    function checkUserType(){
+        if( localStorage.getItem('login') !== 'admin'){
+            $('#addBook').toggle(false)
+            $('#deleteBook').toggle(false)
+        } else {
+            $('#addBook').toggle(true)
+            $('#deleteBook').toggle(true)
+        }
+    }
 
     $(document).ready(function () {
-        // Listen to submit event on the <form> itself!
         $('#deleteBook').submit(function (e) {
-
             e.preventDefault();
             deleteUrl = url + '/' + $('#deletedId').val()
-
             $.ajax({
                 type: "DELETE",
                 beforeSend: function (request) {
@@ -113,7 +118,6 @@
 
 
     $(document).ready(function () {
-        // Listen to submit event on the <form> itself!
         $('#addBook').submit(function (e) {
 
             e.preventDefault();
