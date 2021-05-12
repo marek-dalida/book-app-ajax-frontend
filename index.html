@@ -1,155 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="style.css" type="text/css"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script type="text/javascript" src="js/main.js"></script>
+    <title>Strona logowania</title>
 
-  <title>Biblioteka dashborard</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Biblioteka</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </div>
-  </nav>
-
-  <!-- Page Content -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12 text-center">
-        <h4 id="logged__user"> </h4>
-
-        <button type="button" class="btn btn-primary mt-2 mb-2" onClick={loadFromApi()}>Pokaż listę książek</button>
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Tytuł</th>
-            <th scope="col">Autor</th>
-            <th scope="col">Rok wydania</th>
-          </tr>
-          </thead>
-          <tbody id="bookList">
-          </tbody>
-        </table>
-
-        <form class="col-6 offset-3" id="addBook">
-          <h4 class="text-center h4 mt-3">Dodawanie książki</h4>
-          <div class="form-group">
-            <label for="title">Tytuł</label>
-            <input type="text" class="form-control" name="title" id="title" placeholder="Podaj tytuł">
-          </div>
-
-          <div class="form-group">
-            <label for="author">Autor</label>
-            <input type="text" class="form-control" id="author" name="author" placeholder="Podaj autora">
-          </div>
-
-          <div class="form-group">
-            <label for="year">Rok wydania</label>
-            <input type="number" class="form-control" id="year" name="year" placeholder="Podaj rok wydania">
-          </div>
-          <button type="submit" class="btn btn-secondary">Dodaj</button>
+<div class="wrapper">
+    <div class="loginPageStyle">
+        <h1 class="text-center mb-2">
+            Biblioteka
+        </h1>
+        <form name="loginForm" id="loginForm"a action="dashboard.html">
+            <div class="form-group">
+                <label for="username">Nazwa uzytkownika</label>
+                <input type="text" class="form-control" name="username" id="username" placeholder="Podaj nazwe uzytkownika">
+            </div>
+            <div class="form-group">
+                <label for="password">Haslo</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Haslo">
+            </div>
+            <button type="submit" class="btn btn-secondary">Zaloguj</button>
         </form>
-        <form class="col-6 offset-3" id="deleteBook">
-          <h4 class="text-center h4 mt-3">Usuwanie książki</h4>
-          <div class="form-group">
-            <label for="deletedId">Id książki</label>
-            <input type="number" class="form-control" name="deletedId" id="deletedId" placeholder="Podaj id książki do usunięcia">
-          </div>
-          <button type="submit" class="btn btn-secondary">Usuń Książkę</button>
-        </form>
-
-      </div>
     </div>
-  </div>
-  <script>
-    var http_post = new XMLHttpRequest();
-
-    $('#logged__user').val('Jestes zalogowany jako :' + localStorage.getItem('login'))
-
-    console.log(localStorage.getItem('login'))
-    console.log(localStorage.getItem('pass'))
-
+</div>
+<script>
     $(document).ready(function () {
-      // Listen to submit event on the <form> itself!
-      $('#deleteBook').submit(function (e) {
-
-        e.preventDefault();
-        deleteUrl = url + '/'+ $('#deletedId').val()
-
-        $.ajax({
-          type: "DELETE",
-          beforeSend: function(request) {
-            request.setRequestHeader("Authorization", "Basic " + btoa("admin:admin"));
-            request.setRequestHeader("Content-Type", "application/json");
-          },
-          url: deleteUrl,
-          processData: false,
-          success: function(msg) {
-            console.log(msg);
-          }
+        // Listen to submit event on the <form> itself!
+        $('#loginForm').submit(function (e) {
+            localStorage.setItem('login', $('#username').val())
+            localStorage.setItem('pass', $('#password').val())
         });
-
-          $('#deletedId').val('')
-
-        loadFromApi()
-      });
     });
-
-
-    $(document).ready(function () {
-      // Listen to submit event on the <form> itself!
-      $('#addBook').submit(function (e) {
-
-        e.preventDefault();
-        let body = {
-          title: $('#title').val(),
-          author: $('#author').val(),
-          year: $('#year').val()
-        }
-
-        $.ajax({
-          type: "POST",
-          beforeSend: function(request) {
-            request.setRequestHeader("Authorization", "Basic " + btoa("admin:admin"));
-            request.setRequestHeader("Content-Type", "application/json");
-          },
-          url: url,
-          data: JSON.stringify(body),
-          dataType: 'json',
-          processData: false,
-          success: function(msg) {
-            console.log(msg);
-            loadFromApi()
-          }
-        });
-
-        $('#title').val('')
-        $('#author').val('')
-        $('#year').val('')
-      });
-    });
-  </script>
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+</script>
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

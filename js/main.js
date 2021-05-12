@@ -1,5 +1,10 @@
 const url = "http://localhost:8080/dashboard";
 
+function loadUserData() {
+  document.getElementById('userData').innerHTML = "<p class='mt-2'>" +  "Jesteś zalogowany jako: <b>" +  localStorage.getItem('login') + "</b></p>"
+}
+
+
 function loadFromApi() {
     let http_request = new XMLHttpRequest();
 
@@ -21,6 +26,6 @@ function loadFromApi() {
     };
 
     http_request.open('GET', url, true);
-    http_request.setRequestHeader("Authorization", "Basic " + btoa("admin:admin"))
+    http_request.setRequestHeader("Authorization", "Basic " + btoa(localStorage.getItem('login')+":" + localStorage.getItem('pass')))
     http_request.send(null);
 }
