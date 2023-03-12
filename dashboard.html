@@ -83,8 +83,8 @@
 </div>
 
 <script>
-    function checkUserType(){
-        if( localStorage.getItem('login') !== 'admin'){
+    function checkUserType() {
+        if (localStorage.getItem('login') !== 'admin') {
             $('#addBook').toggle(false)
             $('#deleteBook').toggle(false)
         } else {
@@ -122,10 +122,8 @@
         });
     });
 
-
     $(document).ready(function () {
         $('#addBook').submit(function (e) {
-
             e.preventDefault();
             let body = {
                 title: $('#title').val(),
@@ -169,12 +167,9 @@
             localStorage.removeItem('pass')
         });
     });
-
-
 </script>
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>

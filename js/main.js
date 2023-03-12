@@ -1,8 +1,8 @@
 const url = "http://localhost:8080/dashboard";
 
 function loadUserData() {
-
-  document.getElementById('navbarText').innerHTML = "<span class='navbar-text text-light'>" +  "Jesteś zalogowany jako: <b>" +  localStorage.getItem('login') + "</b></span>"
+    document.getElementById('navbarText').innerHTML =
+        "<span class='navbar-text text-light'>" + "Jesteś zalogowany jako: <b>" + localStorage.getItem('login') + "</b></span>"
 }
 
 
@@ -26,13 +26,13 @@ function loadFromApi() {
         }
     };
 
-    http_request.onerror = function (e){
+    http_request.onerror = function (e) {
         console.log(e.target.status)
         console.log(e.target.error)
         alert('Wystąpił błąd podczas pobierania listy książek !')
     }
 
     http_request.open('GET', url, true);
-    http_request.setRequestHeader("Authorization", "Basic " + btoa(localStorage.getItem('login')+":" + localStorage.getItem('pass')))
+    http_request.setRequestHeader("Authorization", "Basic " + btoa(localStorage.getItem('login') + ":" + localStorage.getItem('pass')))
     http_request.send(null);
 }
